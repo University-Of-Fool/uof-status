@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Server {
+  id          Int      @id @default(autoincrement())
+  name        String
+  token       String /// Token should be an MD5
+  description String
+  statuses    Status[]
+}
+
+model Status {
+  serverId Int
+  id       Int      @id @default(autoincrement())
+  status   Boolean
+  time     DateTime @default(now())
+  server   Server   @relation(fields: [serverId], references: [id])
+}
+
