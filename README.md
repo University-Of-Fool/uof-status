@@ -1,7 +1,7 @@
 # uof-status
 A Node.js application used to monitor UOF's server status
 
-# Usage
+# 1.服务端部署
 下载 [Release](https://github.com/University-Of-Fool/uof-status/releases)，更改 `prisma/schema.prisma`
 ## 配置数据库
 ```prisma
@@ -32,3 +32,5 @@ npm start
 ## 更多配置
 详见 config.toml
 
+# 2.客户端部署
+ - [uof-status-client-py](https://github.com/University-Of-Fool/uof-status-client-py/blob/main/client.py)
