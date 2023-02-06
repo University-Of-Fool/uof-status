@@ -109,3 +109,6 @@ prisma/dev.db*
 
 # macOS
 .DS_Store
+
+# Logging
+logs/
