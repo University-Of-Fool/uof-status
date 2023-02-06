@@ -33,4 +33,4 @@ npm start
 详见 config.toml
 
 # 2.客户端部署
- - [uof-status-client-py](https://github.com/University-Of-Fool/uof-status-client-py/blob/main/client.py)
+ - [uof-status-client-py](https://github.com/University-Of-Fool/uof-status-client-py/)
