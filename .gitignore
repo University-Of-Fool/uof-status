@@ -112,3 +112,6 @@ prisma/dev.db*
 
 # Logging
 logs/
+
+# complied js files
+build/
