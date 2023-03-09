@@ -33,7 +33,6 @@ export default class uofStatusTimer {
     private timing(): void {
         this.log.debug("New loop started");
         this.checkServers();
-        setTimeout(() => this.timing(), this.interval);
     }
 
     constructor(db: uofStatusDatabase, timingInterval: number, timingMax:number) {
@@ -41,6 +40,6 @@ export default class uofStatusTimer {
         this.interval = timingInterval;
         this.max_time=timingMax;
         this.log=log4js.getLogger("timer");
-        this.timing();
+        setInterval(this.timing, this.interval);
     }
 }
