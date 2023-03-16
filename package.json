@@ -2,10 +2,11 @@
   "name": "uof-status",
   "version": "0.0.1",
   "description": "A Node.js application used to monitor UOF's server status",
-  "main": "app.ts",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.ts",
-    "build": "tsc",
+    "dev": "npx nodemon app.ts",
+    "build": "npx tsc",
+    "dev-start": "npx ts-node app",
     "start": "node app"
   },
   "repository": {

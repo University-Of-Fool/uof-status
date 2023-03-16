@@ -37,8 +37,8 @@ console=false
 file=true
 filename='./logs/app.log'
 [Logging.Timer]
-level='info'
-console=false
+level='debug'
+console=true
 file=true
 filename='./logs/timer.log'
 

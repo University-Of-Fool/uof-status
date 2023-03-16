@@ -15,7 +15,7 @@ datasource db {
 * url 需要创建 .env 文件（在下文表述）
 
 编辑 .env：
-```dotenv
+```bash
 DATABASE_URL="mysql://johndoe:mypassword@localhost:3306"
 ## 或者，以下适用于 SQLite
 DATABASE_URL="file:./dev.db"
