@@ -34,4 +34,3 @@ npm start
 
 # 2.客户端部署（取决于系统环境，任选一个即可）
  - [uof-status-client-py](https://github.com/University-Of-Fool/uof-status-client-py/)
- - [uof-status-client-bash](https://github.com/University-Of-Fool/uof-status-client-bash/)
