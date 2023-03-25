@@ -1,6 +1,6 @@
 {
   "name": "uof-status",
-  "version": "0.0.1",
+  "version": "0.999.2",
   "description": "A Node.js application used to monitor UOF's server status",
   "main": "app.js",
   "scripts": {
