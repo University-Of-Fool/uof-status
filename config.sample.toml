@@ -1,0 +1,49 @@
+#
+# This is a sample configuration file
+#     for uof-status application
+# Refer to https://github.com/University-Of-Fool/uof-status
+#     for more information
+#
+# (c) University of Fool 2023, Some rights reserved
+#
+[Service]
+# listen: listen on
+# port: which port
+listen='127.0.0.1'
+port='4044'
+
+[Api]
+# Example is Md5 of 'aaabbbaaa', calculate one with node app.js -c [token]
+global_token="d0b51f56f3fe54a3ef959910a0119a83"
+
+[Logging]
+# Avaliable levels:
+# all, debug, info, warn, error, fatal, off
+[Logging.Db]
+level='info'
+# put log to console or not
+console=false
+# put log to file or not
+file=true
+filename='./logs/db.log'
+[Logging.Api]
+level='info'
+console=false
+file=true
+filename='./logs/api.log'
+[Logging.App]
+level='warn'
+console=false
+file=true
+filename='./logs/app.log'
+[Logging.Timer]
+level='info'
+console=false
+file=true
+filename='./logs/timer.log'
+
+[Timer]
+# how often, milliseconds
+interval=2500
+# offline when this time is reached, milliseconds
+max_seconds=70000

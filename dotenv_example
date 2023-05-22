@@ -1,0 +1,33 @@
+# 文件底部有中文版本
+# CRUCIAL: Whenever you are modifying this or performing 
+#          a new install, run [ npx prisma migrate dev ]
+#          after done!
+
+# Default database configuration with a SQLite setup
+# You'll find dev.db under prisma/
+DATABASE_URL='file:./dev.db'
+
+# Example database setup with MySQL (or MariaDB)
+# using identify: username=uofstatus, password=aaabbba
+# database name: uof_status
+# notice that Prisma cannot use UNIX socket for connection
+# so make sure your database username has a @'[host]' suffix
+# i.e. something like CREATE USER 'uofstatus'@'localhost'
+#
+# DATABASE_URL='mysql://uofstatus:aaabbba@localhost:3306/uof_status'
+
+
+# [非常重要] 无论你是在修改数据库配置，还是正在全新安装
+#            都不要忘记在修改后运行 [ npx prisma migrate dev ]
+
+# 使用 SQLite 的默认数据库配置
+# dev.db 会出现在 prisma/ 目录下
+# DATABASE_URL='file:./dev.db'
+
+# 使用 MySQL(MariaDB) 的示例配置
+# 本例中 用户名=uofstatus 密码=aaabbba 数据库名为 uof_status
+# 注意：Prisma 不能使用 UNIX Socket 与数据库进行通信
+# 所以请确保你的数据库用户名有一个 @'host' 后缀
+# 也就是用户名得类似于 'uofstatus'@'localhost'
+#
+# DATABASE_URL='mysql://uofstatus:aaabbba@localhost:3306/uof_status'
