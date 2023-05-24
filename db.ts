@@ -24,6 +24,7 @@ export function makeString(): string {
 export default class uofStatusDatabase {
   private prisma: PrismaClient;
   private log: log4js.Logger;
+  private cache: (Server & { statuses: Status[] })[];
   public newServer(name: string, description: string): Promise<ServerInfo> {
     return new Promise((resolve, reject) => {
       var token = makeString();
@@ -38,7 +39,8 @@ export default class uofStatusDatabase {
         .then((value) => {
           this.log.info("New server added:", value.name);
           this.log.debug("detail:", JSON.stringify(value));
-          resolve({ token: token, id: value.id });
+          this.updateCache();
+          resolve(value);
         })
         .catch((e) => {
           this.log.warn("Unknown error occupied in newServer:", e);
@@ -72,6 +74,7 @@ export default class uofStatusDatabase {
             `id: ${value.id}`,
           );
           this.log.debug("detail:", JSON.stringify(value));
+          this.updateCache();
           resolve();
         })
         .catch((e) => {
@@ -96,6 +99,7 @@ export default class uofStatusDatabase {
         .then(() => {
           this.log.info("Server deleted with all its relatives:", id);
         })
+        .then(() => this.updateCache())
         .then(() => resolve())
         .catch((e) => {
           this.log.warn("Unknown error occupied in delServer:", e);
@@ -104,6 +108,13 @@ export default class uofStatusDatabase {
     });
   }
   public queryStatuses(serverId: number): Promise<Status[]> {
+    return new Promise((resolve, reject) => {
+      this.cache[serverId] != undefined
+        ? resolve(this.cache[serverId].statuses)
+        : reject(`No server with id ${serverId} found`);
+    });
+  }
+  public db_queryStatuses(serverId: number): Promise<Status[]> {
     return new Promise((resolve, reject) => {
       this.prisma.server
         .findUnique({
@@ -129,6 +140,15 @@ export default class uofStatusDatabase {
   }
   public queryLatestStatus(serverId: number): Promise<Status> {
     return new Promise((resolve, reject) => {
+      let _ret = undefined;
+      this.cache[serverId] != undefined
+        ? (_ret = this.cache[serverId].statuses.at(-1))
+        : reject(`No server with the id ${serverId} found.`);
+      if (_ret != undefined) resolve(_ret);
+    });
+  }
+  public db_queryLatestStatus(serverId: number): Promise<Status> {
+    return new Promise((resolve, reject) => {
       this.prisma.status
         .findMany({
           where: { serverId: serverId },
@@ -153,6 +173,8 @@ export default class uofStatusDatabase {
         });
     });
   }
+  /*因为缓存机制因为为了方便查询，直接返回 cache 的话会出现空元素
+    而且这个函数使用的次数也不多，故略过此函数的缓存化改造 */
   public queryServers(): Promise<(Server & { statuses: Status[] })[]> {
     return new Promise((resolve, reject) => {
       this.prisma.server
@@ -172,6 +194,7 @@ export default class uofStatusDatabase {
         });
     });
   }
+  // 略过改造，理由同上
   public queryServersNoStatus(): Promise<Server[]> {
     return new Promise((resolve, reject) => {
       this.prisma.server
@@ -192,7 +215,15 @@ export default class uofStatusDatabase {
     });
   }
 
-  public queryServerToken(id: number): Promise<string> {
+  public queryServerToken(serverId: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.cache[serverId] != undefined
+        ? resolve(this.cache[serverId].token)
+        : reject(`No server found with the id ${serverId}`);
+    });
+  }
+
+  public db_queryServerToken(id: number): Promise<string> {
     return new Promise((resolve, reject) => {
       this.prisma.server
         .findUnique({
@@ -212,8 +243,26 @@ export default class uofStatusDatabase {
         });
     });
   }
+  public updateCache(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.queryServers()
+        .then((value) => {
+          value.forEach((item) => {
+            this.cache[item.id] = item;
+          });
+          this.log.debug("Cache updated");
+          resolve();
+        })
+        .catch((e) => {
+          this.log.warn("Updating cache failed, reason:", e);
+          reject(e);
+        });
+    });
+  }
   constructor() {
     this.prisma = new PrismaClient();
     this.log = log4js.getLogger("database");
+    this.cache = [];
+    this.updateCache();
   }
 }

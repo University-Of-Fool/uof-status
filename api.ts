@@ -203,7 +203,6 @@ export default class uofStatusApi {
     express: Express,
     db: uofStatusDatabase,
     config: Configuration,
-    blocked?: boolean,
   ) {
     this.app = express;
     this.db = db;
