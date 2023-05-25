@@ -9,8 +9,8 @@ if test "$?" -eq 127 ; then
   npm install
 fi
 npx tsc
-cp -r ./package.json ./layouts ./prisma ./README.md ./LICENSE ./APIREADME.md yarn.lock build/
-cp ./config.sample.toml build/
+cp -r ./package.json config.sample.toml ./prisma ./README.md ./LICENSE ./APIREADME.md yarn.lock build/
+cp -r ./src/layouts build/src/layouts
 cp ./dotenv_example build/.env.sample
 if [ -x "$(command -v zip)" ]
 then
@@ -18,8 +18,8 @@ then
   cp -r build/ build/uof-status/
   rm -f build/uof-status/.DS_Store
   cd build/
-  zip -9r ./uof-status.zip -xi uof-status/
+  zip -9r ../uof-status.zip -xi uof-status/
   rm -rf uof-status/
 else
-  echo -e "\033[32m::\033[0m zip not found, skipped packaging"
+  echo -e "\033[32m::\033[0m \`zip\` not found, skipped packaging"
 fi

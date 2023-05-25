@@ -2,12 +2,13 @@
   "name": "uof-status",
   "version": "0.0.2",
   "description": "A Node.js application used to monitor UOF's server status",
-  "main": "app.js",
+  "main": "uof-status.js",
   "scripts": {
-    "dev": "npx nodemon app.ts",
+    "dev": "npx nodemon uof-status",
     "build": "npx tsc",
-    "dev-start": "npx ts-node app",
-    "start": "node app"
+    "makepkg": "./build.sh",
+    "dev-start": "npx ts-node uof-status",
+    "start": "node uof-status"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "nodeman": "^1.1.2",
+    "nodemon": "^2.0.22",
     "prettier": "^3.0.0-alpha.7-for-vscode",
     "prisma": "^4.14.1",
     "ts-node": "^10.9.1",

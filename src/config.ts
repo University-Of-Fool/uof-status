@@ -29,15 +29,10 @@ export default class uofStatusConfig {
     } catch (e) {
       console.warn("Configuration file is not readable");
     }
-    if (typeof configObj.Service == "undefined") {
+    if (typeof configObj.Service == "undefined")
       configObj.Service = { listen: "127.0.0.1", port: "4044" };
-    }
-    if (typeof configObj.Api == "undefined") {
-      configObj.Api = {};
-    }
-    if (typeof configObj.Logging == "undefined") {
-      configObj.Logging = {};
-    }
+    if (typeof configObj.Api == "undefined") configObj.Api = {};
+    if (typeof configObj.Logging == "undefined") configObj.Logging = {};
     if (typeof configObj.Timer === "undefined") configObj.Timer = {};
     if (typeof configObj.Logging.Db == "undefined") configObj.Logging.Db = {};
     if (typeof configObj.Logging.Api == "undefined") configObj.Logging.Api = {};

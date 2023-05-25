@@ -173,7 +173,7 @@ export default class uofStatusDatabase {
         });
     });
   }
-  /*因为缓存机制因为为了方便查询，直接返回 cache 的话会出现空元素
+  /* 因为缓存机制因为为了方便查询，直接返回 cache 的话会出现空元素
     而且这个函数使用的次数也不多，故略过此函数的缓存化改造 */
   public queryServers(): Promise<(Server & { statuses: Status[] })[]> {
     return new Promise((resolve, reject) => {
@@ -185,7 +185,6 @@ export default class uofStatusDatabase {
         })
         .then((value) => {
           this.log.info("Queried servers");
-          this.log.debug("Detail:", JSON.stringify(value));
           resolve(value);
         })
         .catch((e) => {
@@ -205,7 +204,6 @@ export default class uofStatusDatabase {
         })
         .then((value) => {
           this.log.info("Queried servers with no status");
-          this.log.debug("Detail:", JSON.stringify(value));
           resolve(value);
         })
         .catch((e) => {

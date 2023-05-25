@@ -199,11 +199,7 @@ export default class uofStatusApi {
     });
   }
 
-  constructor(
-    express: Express,
-    db: uofStatusDatabase,
-    config: Configuration,
-  ) {
+  constructor(express: Express, db: uofStatusDatabase, config: Configuration) {
     this.app = express;
     this.db = db;
     this.config = config;
