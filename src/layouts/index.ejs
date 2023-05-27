@@ -1,54 +1,232 @@
-<% 
-  var mobile=/mobile/i.test(useragent);
-
-%>
-<!DOCTYPE html>
 <html>
-<%- include("_particials/head/head.ejs"); %>
+
+<head>
+    <!-- CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
 
 <body>
-  <div class="container pt-3 gap-3">
-    <div class="row pb-3">
-      <div class="col"><span class="h1">University of Fool: Status</span></div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="mdc-card" style="padding: 16px;">
-          <span class="h3">服务器状态</span>
-          <div class="mdc-data-table">
-            <div class="mdc-data-table__table-container">
-              <table class="mdc-data-table__table" aria-label="Server Status">
-                <thead>
-                  <tr class="mdc-data-table__header-row ">
-                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col"><span class="material-icons text-muted" style="vertical-align: middle;">dns</span><%if(!mobile){%><span style="vertical-align: middle;">&nbsp;服务器</span><%}%></th>
-                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col"><span class="material-icons text-muted" style="vertical-align: middle;">check_circle</span><%if(!mobile){%><span style="vertical-align: middle;">&nbsp;状态</span><%}%></th>
-                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col"><span class="material-icons text-muted" style="vertical-align: middle;">update</span><%if(!mobile){%><span style="vertical-align: middle;">&nbsp;更新时间</span><%}%></th>
-                    <th class="mdc-data-table__header-cell" role="columnheader" scope="col"><span class="material-icons text-muted" style="vertical-align: middle;">info</span><%if(!mobile){%><span style="vertical-align: middle;">&nbsp;描述</span><%}%></th>
-                  </tr>
-                </thead>
-                <tbody class="mdc-data-table__content">
-                  <% servers.forEach(value=>{ %>
-                  <tr class="mdc-data-table__row">
-                    <th class="mdc-data-table__cell" scope="row"><%= value.name %></th>
-                    <% if(!value.statuses.length){ %>
-                      <td class="mdc-data-table__cell">Unavailable</td>
-                      <td class="mdc-data-table__cell">Unavailable</td>
-                    <% }else{ %>
-                      <td class="mdc-data-table__cell"><%= value.statuses[value.statuses.length-1].status?"Online":"Offline" %></td>
-                      <td class="mdc-data-table__cell"><%= value.statuses[value.statuses.length-1].time.toLocaleString() %></td>
-                    <% } %>
-                    <td class="mdc-data-table__cell"><%= value.description %></td>
-                  </tr>
-                  <% }); %>
-                  </tbody>
-              </table>
+    <!-- 标题栏开始 -->
+    <nav class="navbar navbar-expand-lg mb-3">
+        <div class="container-fluid mt-0 mb-0 ms-2 me-2">
+            <a class="navbar-brand mt-2 me-2 mt-lg-0 text-center">
+                <i class="fa-solid fa-triangle-exclamation" style="color:#b32020"></i>&nbsp;&nbsp;UOF Status&nbsp;&nbsp;
+            </a>
+
+
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="navbar-brand fa-solid fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
+
+
+                <div class="d-flex align-items-center">
+
+                    <div> 3/3 服务在线&nbsp;&nbsp;</div>
+                    <!-- RLt's comment: 这里传递在线服务数量和总服务数量 -->
+
+                    <i class="fa-solid fa-circle-check" style="color: #00dd00;"></i>
+                    <!-- 
+                        <i class="fa-solid fa-circle-xmark" style="color: #dd0000;"></i>
+                        <i class="fa-solid fa-circle-question" style="color: #dddd00;"></i>
+                    -->
+                    <!-- RLt's comment: 根据状态传递不同图标 -->
+
+                    <div style="font-size: 125%;">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>
+
+                    <a id="buttonDarkMode" data-mdb-toggle="tooltip2" title="切换深色模式" onclick="darkModeSwitcher()">
+                        <i class="fa-solid fa-circle-half-stroke fa-lg pu-navbar-icon"></i>
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <a class="nav-link" id="buttonRefresh" title="更新数据" onclick="
+                    window.location.href='/'
+                    const elem = document.getElementById('buttonRefresh')
+                    if(!elem.classList.contains('fa-spin')){ // 防止动画重复播放导致错乱
+                        elem.classList.add('fa-spin')
+                        setTimeout(() => {
+                            elem.classList.remove('fa-spin')
+                         }, 2000);
+                    }
+                    ">
+                        <i class="fa-solid fa-rotate-right fa-lg"></i>
+                    </a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <a data-mdb-toggle="tooltip1" title="UOF博客站" href="https://uof.edu.kg">
+                        <i class="fa-solid fa-house fa-lg pu-navbar-icon" style="color:#000"></i>
+                    </a>
+                    <!-- RLt's comment: 或许可以换成uof的抽象图标 -->
+
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </nav>
+    <!-- 标题栏结束 -->
+
+    <!-- 主界面开始 -->
+    <div class="container-md">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3">
+
+            <% servers.forEach(element=> { %>
+                <%- include('index_card.ejs',{"data":element}) %>
+            <% }) %>
+
+        </div>
     </div>
-  </div>
-  <%- include("_particials/foot/footer.ejs"); %>
+    <!-- 主界面结束 -->
+
+    <!-- 深色模式脚本 -->
+    <script>
+        // 在网页加载时读取深色模式配置并决定是否切换
+        var isDarkModeOn = false
+        if (localStorage.getItem('isDarkModeOn') == "true") { // localStorage 里存的是 string
+            let b = document.body
+            b.classList.add('pu-dark')
+            isDarkModeOn = true
+        }
+
+        function darkModeSwitcher() {
+            // 深色模式切换按钮
+            let b = document.body
+            if (!isDarkModeOn) {
+                b.classList.add('pu-dark')
+                isDarkModeOn = true
+                localStorage.setItem('isDarkModeOn', isDarkModeOn)
+            } else {
+                b.classList.remove('pu-dark')
+                isDarkModeOn = false
+                localStorage.setItem('isDarkModeOn', isDarkModeOn)
+            }
+            // 动画
+            let elem = document.getElementById('buttonDarkMode')
+            if (!elem.classList.contains("fa-bounce")) {
+                elem.classList.add("fa-bounce")
+                setTimeout(() => {
+                    elem.classList.remove("fa-bounce")
+                }, 500);
+            }
+        }
+
+    </script>
+
+
+
+    <!-- 深色模式 -->
+    <style>
+        /* 默认情况下应用浅色样式 */
+        body {
+            --pu-text: #000;
+            --pu-hover: #555;
+            --pu-text-muted: #757575;
+        }
+
+        /* 深色样式 */
+        body.pu-dark {
+            --pu-body-bg-color: #222;
+            --pu-navbar-bg-color: #282828;
+            --pu-card-bg-color: #444;
+            --pu-text: #FFF;
+            --pu-hover: #D0D0D0;
+            --pu-btn-bg-color: #78aaff;
+            --pu-btn-bg-color-hover: #aac9ff;
+            --pu-text-muted: #a2a2a2;
+        }
+
+        body {
+            background-color: var(--pu-body-bg-color);
+            color: var(--pu-text);
+            transition-duration: 300ms !important;
+        }
+
+        .navbar {
+            background-color: var(--pu-navbar-bg-color);
+            transition-duration: 300ms !important;
+        }
+
+        .navbar-brand {
+            color: var(--pu-text);
+            transition-duration: 300ms !important;
+        }
+
+        .navbar-brand:hover {
+            color: var(--pu-hover);
+            transition-duration: 300ms !important;
+        }
+
+        .nav-link {
+            color: var(--pu-text);
+            transition-duration: 300ms !important;
+        }
+
+        .nav-link:hover {
+            color: var(--pu-hover);
+            transition-duration: 300ms !important;
+        }
+
+        .pu-navbar-icon {
+            color: var(--pu-text) !important;
+            transition-duration: 300ms !important;
+        }
+
+        .pu-navbar-icon:hover {
+            color: var(--pu-hover) !important;
+            transition-duration: 300ms !important;
+        }
+
+
+
+        .card {
+            background-color: var(--pu-card-bg-color);
+            transition-duration: 300ms !important;
+        }
+
+
+        .form-label {
+            color: var(--pu-text) !important;
+            transition-duration: 300ms !important;
+        }
+
+        .form-control {
+            color: var(--pu-hover) !important;
+            transition-duration: 300ms !important;
+        }
+
+        .table {
+            color: var(--pu-text);
+            transition-duration: 300ms !important;
+        }
+
+        .btn-outline-secondary {
+            color: var(--pu-btn-bg-color);
+            transition-duration: 300ms !important;
+        }
+
+        .btn-outline-secondary:hover {
+            color: var(--pu-btn-bg-color-hover);
+            transition-duration: 300ms !important;
+        }
+
+        .text-muted {
+            color: var(--pu-text-muted) !important;
+            transition-duration: 300ms !important;
+        }
+    </style>
+
+
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
 </body>
 
 </html>
